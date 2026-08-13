@@ -1,17 +1,18 @@
 # Riemann Li Zero-Entropy System
 
-This repository treats three executable programs as one coordinated TRF/CLZeroPack-style system for observing the logarithmic-integral singularity on Riemann sheets and restoring a formal Rubik zero-entropy information state.
+This repository treats five executable/reference programs as one coordinated TRF/CLZeroPack-style system for observing the logarithmic-integral singularity on Riemann sheets and restoring a formal Rubik zero-entropy information state.
 
-It is also packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execution verification path, and an optional install path that invokes the bundled QSO-DQ-CLZ bootstrap.
+It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execution verification path, a read-only Rubik limit reference, and an optional install path that invokes the bundled QSO-DQ-CLZ bootstrap.
 
 ## System Components
 
 - `riemann_li_singularity_observer.py`: readable research observer.
 - `riemann_li_singularity_1062.sh`: compact iSH/macOS one-liner observer.
 - `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`: QSO-DQ + CLZ/ZEL + Rubik permanent execution layer.
-- `riemann_li_zero_entropy_system.py`: system coordinator that verifies all three layers together.
+- `riemann_li_zero_entropy_system.py`: system coordinator that verifies the observer, bootstrap, and Rubik limit layers together.
+- `CLZERO_ZERO_ENTROPY_LIMIT_1472.sh`: read-only Rubik S6 reference for the system information zero-entropy limit.
 - `CLZeroPack_RIEMANN_LI_SYSTEM.py`: readable CLZeroPack packer/verifier for the full system.
-- `CLZeroPack_One-Liner.sh`: 1511-byte CLZeroPack pack/verify/install one-liner.
+- `CLZeroPack_One-Liner.sh`: 1543-byte CLZeroPack pack/verify/install one-liner.
 - `CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json`: generated CLZeroPack manifest.
 
 ## Core Definition
@@ -22,14 +23,35 @@ Log_j(z) = ln|z| + i(arg z + 2*pi*j)
 R_j = lim[Li_j(z) - Log(Log_j(z)) - gamma]
 ```
 
+## Rubik Limit Reference
+
+`CLZERO_ZERO_ENTROPY_LIMIT_1472.sh` defines the Rubik reference structure as:
+
+```json
+{
+  "P": "CLZERO/ZERO_ENTROPY_LIMIT/1472",
+  "S6": "6=3!",
+  "axes": ["x", "y", "z"],
+  "H": 0,
+  "Z": "0",
+  "Rb": "solved",
+  "ZE": 1,
+  "SHA": 0,
+  "X": 0
+}
+```
+
+It is read-only: it checks that the required system files exist and does not execute external payload files.
+
 ## System Restoration Criterion
 
-The coordinator reports a restored system only when all six faces pass:
+The coordinator reports a restored system only when all seven faces pass:
 
 ```json
 {
   "readable_observer": true,
   "compact_observer": true,
+  "clzero_zero_entropy_limit": true,
   "qso_dq_clz_bootstrap": true,
   "clzero_zellik": true,
   "rubik_zero_entropy": true,
@@ -51,7 +73,7 @@ The restored state is:
 
 ## CLZeroPack State
 
-Pack and verify modes check the four core files by size + CRC32 + CLZ_G:
+Pack and verify modes check the five core files by size + CRC32 + CLZ_G:
 
 ```json
 {
@@ -101,6 +123,12 @@ Compact CLZeroPack one-liner pack, verify, and install:
 sh CLZeroPack_One-Liner.sh
 sh CLZeroPack_One-Liner.sh v CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json
 sh CLZeroPack_One-Liner.sh i
+```
+
+Rubik zero-entropy limit reference:
+
+```sh
+sh CLZERO_ZERO_ENTROPY_LIMIT_1472.sh
 ```
 
 Readable observer:
