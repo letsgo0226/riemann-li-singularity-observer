@@ -2,7 +2,7 @@
 """
 Riemann Li Zero-Entropy System
 
-This is the system-level coordinator for four executable layers:
+This is the system-level coordinator for five executable/reference layers:
 
 1. riemann_li_singularity_observer.py
    Readable observer for the renormalized logarithmic-integral singularity.
@@ -14,7 +14,12 @@ This is the system-level coordinator for four executable layers:
    Permanent QSO-DQ + CLZ/ZEL + Rubik zero-entropy execution layer.
 
 4. CLZERO_ZERO_ENTROPY_LIMIT_1472.sh
-   Read-only Rubik S6 reference for the information zero-entropy limit.
+   CLZ/ZEL/1 zero-entropy limit verifier imported from
+   COSMIC_LOVE_IS_THE_SOLUTIONS_FOR_EVERYTHING.
+
+5. CLZERO_CROSS_WINDOW_CONTINUITY_NODE_ONE_LINER.sh
+   CLZ/GMS-Tiny/1 cross-window continuity coordinate node imported from
+   COSMIC_LOVE_IS_THE_SOLUTIONS_FOR_EVERYTHING.
 
 The system state is restored when all layers report their own H=0/Rubik solved
 condition. This is a digital/formal information state, not a physical QPU claim.
@@ -37,6 +42,7 @@ READABLE = os.path.join(ROOT, "riemann_li_singularity_observer.py")
 COMPACT = os.path.join(ROOT, "riemann_li_singularity_1062.sh")
 BOOTSTRAP = os.path.join(ROOT, "QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh")
 LIMIT = os.path.join(ROOT, "CLZERO_ZERO_ENTROPY_LIMIT_1472.sh")
+CONTINUITY = os.path.join(ROOT, "CLZERO_CROSS_WINDOW_CONTINUITY_NODE_ONE_LINER.sh")
 
 
 def dumps(obj):
@@ -86,6 +92,18 @@ def observe_limit():
     return run_json(["sh", LIMIT])
 
 
+def observe_continuity():
+    return run_json(["sh", CONTINUITY, "sample"])
+
+
+def limit_restored(state):
+    return state.get("H") == 0 and state.get("Z") == "0" and state.get("Q", {}).get("O") == "solved"
+
+
+def continuity_restored(state):
+    return state.get("H") == 0 and state.get("Q", {}).get("Hq") == 0
+
+
 def persistent_status():
     state_dir = os.environ.get("QSO_CLZ_HOME", os.path.expanduser("~/.qso_dq_clz"))
     paths = {
@@ -113,14 +131,17 @@ def system_verify(args):
     r = observe_readable(args)
     c = observe_compact(args)
     l = observe_limit()
+    n = observe_continuity()
     b = verify_bootstrap()
     compact_state = c.get("json", {})
     limit_state = l.get("json", {})
+    continuity_state = n.get("json", {})
     bootstrap_state = b.get("state", {}).get("json", {})
     faces = {
         "readable_observer": r.get("H") == 0 and r.get("ZE") == 1,
         "compact_observer": c.get("ok") and compact_state.get("H") == 0 and compact_state.get("ZE") == 1,
-        "clzero_zero_entropy_limit": l.get("ok") and limit_state.get("H") == 0 and limit_state.get("ZE") == 1,
+        "clzero_zero_entropy_limit": l.get("ok") and limit_restored(limit_state),
+        "clzero_cross_window_continuity": n.get("ok") and continuity_restored(continuity_state),
         "qso_dq_clz_bootstrap": bootstrap_state.get("DQ") == 1 and bootstrap_state.get("H_digital") == 0,
         "clzero_zellik": bootstrap_state.get("CLZ_H") == 0 and bootstrap_state.get("CLZ_Rb") == "solved",
         "rubik_zero_entropy": bootstrap_state.get("Rubik_H") == 0 and bootstrap_state.get("Rubik_ZE") == 1,
@@ -143,12 +164,14 @@ def system_verify(args):
             "compact": COMPACT,
             "bootstrap": BOOTSTRAP,
             "limit": LIMIT,
+            "continuity": CONTINUITY,
         },
         "readable": r,
         "compact": compact_state if c.get("ok") else c,
         "limit": limit_state if l.get("ok") else l,
+        "continuity": continuity_state if n.get("ok") else n,
         "bootstrap": bootstrap_state if b.get("state", {}).get("ok") else b,
-        "axiom": "The observer, bootstrap, and Rubik limit layers form one restored digital information system; physical QPU conversion remains false.",
+        "axiom": "The observer, bootstrap, Rubik limit, and continuity node form one restored digital information system; physical QPU conversion remains false.",
     }
 
 
