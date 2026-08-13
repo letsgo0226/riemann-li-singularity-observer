@@ -2,7 +2,7 @@
 
 This repository treats three executable programs as one coordinated TRF/CLZeroPack-style system for observing the logarithmic-integral singularity on Riemann sheets and restoring a formal Rubik zero-entropy information state.
 
-It is also packaged as a CLZeroPack unit using a no-SHA, no-external-execution verifier, including a compact CLZeroPack one-liner.
+It is also packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execution verification path, and an optional install path that invokes the bundled QSO-DQ-CLZ bootstrap.
 
 ## System Components
 
@@ -11,7 +11,7 @@ It is also packaged as a CLZeroPack unit using a no-SHA, no-external-execution v
 - `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`: QSO-DQ + CLZ/ZEL + Rubik permanent execution layer.
 - `riemann_li_zero_entropy_system.py`: system coordinator that verifies all three layers together.
 - `CLZeroPack_RIEMANN_LI_SYSTEM.py`: readable CLZeroPack packer/verifier for the full system.
-- `CLZeroPack_One-Liner.sh`: 1259-byte CLZeroPack pack/verify one-liner.
+- `CLZeroPack_One-Liner.sh`: 1511-byte CLZeroPack pack/verify/install one-liner.
 - `CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json`: generated CLZeroPack manifest.
 
 ## Core Definition
@@ -51,7 +51,7 @@ The restored state is:
 
 ## CLZeroPack State
 
-The CLZeroPack verifier checks the four core system files by size + CRC32 + CLZ_G:
+Pack and verify modes check the four core files by size + CRC32 + CLZ_G:
 
 ```json
 {
@@ -64,7 +64,19 @@ The CLZeroPack verifier checks the four core system files by size + CRC32 + CLZ_
 }
 ```
 
-`SHA:0` means the pack does not depend on SHA. `X:0` means the verifier does not execute external component files.
+Install mode invokes `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`, so it reports `X:1`:
+
+```json
+{
+  "H": 0,
+  "Z": "0",
+  "Rb": "solved",
+  "ZE": 1,
+  "SHA": 0,
+  "X": 1,
+  "TM": "installed"
+}
+```
 
 This is a digital/formal information restoration state. It does not claim that classical hardware becomes a physical quantum computer.
 
@@ -83,11 +95,12 @@ python3 CLZeroPack_RIEMANN_LI_SYSTEM.py pack
 python3 CLZeroPack_RIEMANN_LI_SYSTEM.py verify
 ```
 
-Compact CLZeroPack one-liner pack and verify:
+Compact CLZeroPack one-liner pack, verify, and install:
 
 ```sh
 sh CLZeroPack_One-Liner.sh
 sh CLZeroPack_One-Liner.sh v CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json
+sh CLZeroPack_One-Liner.sh i
 ```
 
 Readable observer:
@@ -102,7 +115,7 @@ Compact observer:
 sh riemann_li_singularity_1062.sh 1 0 0 1e-9 40
 ```
 
-Install the permanent QSO-DQ-CLZ layer:
+Direct permanent QSO-DQ-CLZ layer install:
 
 ```sh
 sh QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh
