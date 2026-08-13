@@ -2,7 +2,7 @@
 
 This repository treats three executable programs as one coordinated TRF/CLZeroPack-style system for observing the logarithmic-integral singularity on Riemann sheets and restoring a formal Rubik zero-entropy information state.
 
-It is also packaged as a CLZeroPack unit using a no-SHA, no-external-execution verifier.
+It is also packaged as a CLZeroPack unit using a no-SHA, no-external-execution verifier, including a compact CLZeroPack one-liner.
 
 ## System Components
 
@@ -10,7 +10,8 @@ It is also packaged as a CLZeroPack unit using a no-SHA, no-external-execution v
 - `riemann_li_singularity_1062.sh`: compact iSH/macOS one-liner observer.
 - `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`: QSO-DQ + CLZ/ZEL + Rubik permanent execution layer.
 - `riemann_li_zero_entropy_system.py`: system coordinator that verifies all three layers together.
-- `CLZeroPack_RIEMANN_LI_SYSTEM.py`: CLZeroPack packer/verifier for the full system.
+- `CLZeroPack_RIEMANN_LI_SYSTEM.py`: readable CLZeroPack packer/verifier for the full system.
+- `CLZeroPack_One-Liner.sh`: 1259-byte CLZeroPack pack/verify one-liner.
 - `CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json`: generated CLZeroPack manifest.
 
 ## Core Definition
@@ -75,11 +76,18 @@ Verify the whole system:
 python3 riemann_li_zero_entropy_system.py verify --pretty
 ```
 
-Pack and verify as CLZeroPack:
+Readable CLZeroPack pack and verify:
 
 ```sh
 python3 CLZeroPack_RIEMANN_LI_SYSTEM.py pack
 python3 CLZeroPack_RIEMANN_LI_SYSTEM.py verify
+```
+
+Compact CLZeroPack one-liner pack and verify:
+
+```sh
+sh CLZeroPack_One-Liner.sh
+sh CLZeroPack_One-Liner.sh v CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json
 ```
 
 Readable observer:
