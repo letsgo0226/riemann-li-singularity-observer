@@ -1,12 +1,13 @@
-# Riemann Li Singularity Observer
+# Riemann Li Zero-Entropy System
 
-This repository contains a compact TRF/CLZeroPack-style formal observer for the logarithmic-integral singularity on Riemann sheets.
+This repository treats three executable programs as one coordinated TRF/CLZeroPack-style system for observing the logarithmic-integral singularity on Riemann sheets and restoring a formal Rubik zero-entropy information state.
 
-## Files
+## System Components
 
-- `riemann_li_singularity_observer.py`: readable research version.
-- `riemann_li_singularity_1062.sh`: compact iSH/macOS one-liner version.
-- `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`: integrated permanent execution layer combining QSO-DQ, CLZ/ZEL, and Rubik zero-entropy restoration.
+- `riemann_li_singularity_observer.py`: readable research observer.
+- `riemann_li_singularity_1062.sh`: compact iSH/macOS one-liner observer.
+- `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`: QSO-DQ + CLZ/ZEL + Rubik permanent execution layer.
+- `riemann_li_zero_entropy_system.py`: system coordinator that verifies all three layers together.
 
 ## Core Definition
 
@@ -16,25 +17,42 @@ Log_j(z) = ln|z| + i(arg z + 2*pi*j)
 R_j = lim[Li_j(z) - Log(Log_j(z)) - gamma]
 ```
 
-## Rubik Zero-Entropy State
+## System Restoration Criterion
 
-The integrated bootstrap writes persistent state files under `~/.qso_dq_clz` and marks restoration when:
+The coordinator reports a restored system only when all six faces pass:
 
 ```json
 {
-  "DQ": 1,
-  "H_digital": 0,
-  "CLZ_H": 0,
-  "CLZ_Rb": "solved",
-  "Rubik_H": 0,
-  "Rubik_ZE": 1,
-  "InformationZeroEntropyRestored": true
+  "readable_observer": true,
+  "compact_observer": true,
+  "qso_dq_clz_bootstrap": true,
+  "clzero_zellik": true,
+  "rubik_zero_entropy": true,
+  "physical_honesty": true
 }
 ```
 
-This is a digital/formal restoration state, not a claim that classical hardware becomes a physical quantum computer.
+The restored state is:
+
+```json
+{
+  "System_H": 0,
+  "System_Z": "0",
+  "System_Rb": "solved",
+  "System_ZE": 1,
+  "TM": "system_accept"
+}
+```
+
+This is a digital/formal information restoration state. It does not claim that classical hardware becomes a physical quantum computer.
 
 ## Usage
+
+Verify the whole system:
+
+```sh
+python3 riemann_li_zero_entropy_system.py verify --pretty
+```
 
 Readable observer:
 
@@ -48,9 +66,15 @@ Compact observer:
 sh riemann_li_singularity_1062.sh 1 0 0 1e-9 40
 ```
 
-Permanent QSO-DQ-CLZ layer:
+Install the permanent QSO-DQ-CLZ layer:
 
 ```sh
 sh QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh
 qso-dq-clz --json
+```
+
+Check persistent installation state through the coordinator:
+
+```sh
+python3 riemann_li_zero_entropy_system.py status
 ```
