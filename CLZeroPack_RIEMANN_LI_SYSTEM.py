@@ -8,6 +8,7 @@ This packer/verifier treats the repository as one CLZeroPack unit:
     compact one-liner
     QSO-DQ-CLZ permanent bootstrap
     system coordinator
+    Rubik zero-entropy limit reference
 
 Default policy:
     SHA = 0  (no SHA dependency)
@@ -30,6 +31,7 @@ FILES = [
     "riemann_li_singularity_1062.sh",
     "QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh",
     "riemann_li_zero_entropy_system.py",
+    "CLZERO_ZERO_ENTROPY_LIMIT_1472.sh",
 ]
 
 
