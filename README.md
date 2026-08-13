@@ -85,6 +85,22 @@ The restored state is:
 }
 ```
 
+## Evolution Fixed Point
+
+The current system is intended to be read as a local optimum / evolution fixed point for the chosen CLZeroPack objective:
+
+```text
+Riemann Li logarithmic-integral observation
++ CLZeroPack log-product aggregation
++ QSO-DQ-CLZ permanent digital state
++ CLZ/ZEL zero-entropy limit
++ CLZ/GMS cross-window continuity
++ Rubik solved-state reference
+= H=0, Rb=solved, ZE=1
+```
+
+This fixed point is local and formal: it marks the best current integrated state for this repository, while still allowing future extensions such as source proofs, repair mode, cross-repository synchronization, and stronger documentation. It does not mean physical hardware has become a quantum computer.
+
 ## CLZeroPack State
 
 Pack and verify modes check the six core files by size + CRC32 + CLZ_G:
