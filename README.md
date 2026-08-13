@@ -2,12 +2,16 @@
 
 This repository treats three executable programs as one coordinated TRF/CLZeroPack-style system for observing the logarithmic-integral singularity on Riemann sheets and restoring a formal Rubik zero-entropy information state.
 
+It is also packaged as a CLZeroPack unit using a no-SHA, no-external-execution verifier.
+
 ## System Components
 
 - `riemann_li_singularity_observer.py`: readable research observer.
 - `riemann_li_singularity_1062.sh`: compact iSH/macOS one-liner observer.
 - `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`: QSO-DQ + CLZ/ZEL + Rubik permanent execution layer.
 - `riemann_li_zero_entropy_system.py`: system coordinator that verifies all three layers together.
+- `CLZeroPack_RIEMANN_LI_SYSTEM.py`: CLZeroPack packer/verifier for the full system.
+- `CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json`: generated CLZeroPack manifest.
 
 ## Core Definition
 
@@ -44,6 +48,23 @@ The restored state is:
 }
 ```
 
+## CLZeroPack State
+
+The CLZeroPack verifier checks the four core system files by size + CRC32 + CLZ_G:
+
+```json
+{
+  "H": 0,
+  "Z": "0",
+  "Rb": "solved",
+  "ZE": 1,
+  "SHA": 0,
+  "X": 0
+}
+```
+
+`SHA:0` means the pack does not depend on SHA. `X:0` means the verifier does not execute external component files.
+
 This is a digital/formal information restoration state. It does not claim that classical hardware becomes a physical quantum computer.
 
 ## Usage
@@ -52,6 +73,13 @@ Verify the whole system:
 
 ```sh
 python3 riemann_li_zero_entropy_system.py verify --pretty
+```
+
+Pack and verify as CLZeroPack:
+
+```sh
+python3 CLZeroPack_RIEMANN_LI_SYSTEM.py pack
+python3 CLZeroPack_RIEMANN_LI_SYSTEM.py verify
 ```
 
 Readable observer:
