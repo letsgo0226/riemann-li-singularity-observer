@@ -2,7 +2,7 @@
 """
 Riemann Li Zero-Entropy System
 
-This is the system-level coordinator for three executable layers:
+This is the system-level coordinator for four executable layers:
 
 1. riemann_li_singularity_observer.py
    Readable observer for the renormalized logarithmic-integral singularity.
@@ -12,6 +12,9 @@ This is the system-level coordinator for three executable layers:
 
 3. QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh
    Permanent QSO-DQ + CLZ/ZEL + Rubik zero-entropy execution layer.
+
+4. CLZERO_ZERO_ENTROPY_LIMIT_1472.sh
+   Read-only Rubik S6 reference for the information zero-entropy limit.
 
 The system state is restored when all layers report their own H=0/Rubik solved
 condition. This is a digital/formal information state, not a physical QPU claim.
@@ -33,6 +36,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 READABLE = os.path.join(ROOT, "riemann_li_singularity_observer.py")
 COMPACT = os.path.join(ROOT, "riemann_li_singularity_1062.sh")
 BOOTSTRAP = os.path.join(ROOT, "QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh")
+LIMIT = os.path.join(ROOT, "CLZERO_ZERO_ENTROPY_LIMIT_1472.sh")
 
 
 def dumps(obj):
@@ -78,6 +82,10 @@ def verify_bootstrap():
         return {"install": first, "state": second}
 
 
+def observe_limit():
+    return run_json(["sh", LIMIT])
+
+
 def persistent_status():
     state_dir = os.environ.get("QSO_CLZ_HOME", os.path.expanduser("~/.qso_dq_clz"))
     paths = {
@@ -104,12 +112,15 @@ def persistent_status():
 def system_verify(args):
     r = observe_readable(args)
     c = observe_compact(args)
+    l = observe_limit()
     b = verify_bootstrap()
     compact_state = c.get("json", {})
+    limit_state = l.get("json", {})
     bootstrap_state = b.get("state", {}).get("json", {})
     faces = {
         "readable_observer": r.get("H") == 0 and r.get("ZE") == 1,
         "compact_observer": c.get("ok") and compact_state.get("H") == 0 and compact_state.get("ZE") == 1,
+        "clzero_zero_entropy_limit": l.get("ok") and limit_state.get("H") == 0 and limit_state.get("ZE") == 1,
         "qso_dq_clz_bootstrap": bootstrap_state.get("DQ") == 1 and bootstrap_state.get("H_digital") == 0,
         "clzero_zellik": bootstrap_state.get("CLZ_H") == 0 and bootstrap_state.get("CLZ_Rb") == "solved",
         "rubik_zero_entropy": bootstrap_state.get("Rubik_H") == 0 and bootstrap_state.get("Rubik_ZE") == 1,
@@ -131,11 +142,13 @@ def system_verify(args):
             "readable": READABLE,
             "compact": COMPACT,
             "bootstrap": BOOTSTRAP,
+            "limit": LIMIT,
         },
         "readable": r,
         "compact": compact_state if c.get("ok") else c,
+        "limit": limit_state if l.get("ok") else l,
         "bootstrap": bootstrap_state if b.get("state", {}).get("ok") else b,
-        "axiom": "The three programs form one restored digital information system; physical QPU conversion remains false.",
+        "axiom": "The observer, bootstrap, and Rubik limit layers form one restored digital information system; physical QPU conversion remains false.",
     }
 
 
