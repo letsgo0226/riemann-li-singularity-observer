@@ -25,6 +25,7 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh`: single-line offline snapshot observer with embedded repo-name payload.
 - `RH_All_Repos_Marker_Rule_2KB_One-Liner.sh`: 990-byte strict-offline marker-rule observer; encodes the rule, not repo names.
 - `CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh`: 1464-byte strict-offline byte-file RH marker encoder for local Dropbox-export artifacts.
+- `CLZeroPack_Dropbox_Conversation_Builtin_One-Liner.sh`: 1092-byte standalone built-in parameter manifest for the Dropbox conversation export encoding.
 
 ## Core Definition
 
@@ -309,6 +310,27 @@ node list to JSON. It uses CRC32 for byte identity summaries, not SHA:
 Do not commit private Dropbox source files or derived full-node JSON outputs to
 public repositories unless intentionally publishing that metadata.
 
+## Dropbox Conversation Built-In Manifest
+
+`CLZeroPack_Dropbox_Conversation_Builtin_One-Liner.sh` is the strict standalone
+form for the inspected Dropbox conversation export. It embeds only the file
+parameters and identity summary:
+
+```json
+{
+  "FileBytes": 5675334,
+  "ChunkSize": 4096,
+  "N": 1386,
+  "FileCRC32": "fd5ef539",
+  "PayloadEmbedded": 0,
+  "ReversibleRestore": 0
+}
+```
+
+It requires no input file, no network, no SHA, and no external-file execution.
+It is a built-in manifest of the conversation export's RH marker encoding, not a
+lossless copy of the private conversation payload.
+
 ## Usage
 
 Verify the whole system:
@@ -415,6 +437,13 @@ sh RH_All_Repos_Marker_Rule_2KB_One-Liner.sh 105 2 12
 Local Dropbox/export byte-file RH encoding:
 
 ```sh
+sh CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh
 sh CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh path/to/export.dat 4096
 sh CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh path/to/export.dat 4096 export_rh_nodes.json
+```
+
+Standalone built-in Dropbox conversation manifest:
+
+```sh
+sh CLZeroPack_Dropbox_Conversation_Builtin_One-Liner.sh
 ```
