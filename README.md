@@ -23,6 +23,7 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `RH_All_Repos_Marker_Encoding_One-Liner.sh`: 1686-byte compact all-repos marker encoder.
 - `RH_All_Repos_Marker_Encoding_Snapshot.py`: fully offline 2026-08-16 all-repos marker snapshot.
 - `RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh`: single-line offline snapshot observer with embedded repo-name payload.
+- `RH_All_Repos_Marker_Rule_2KB_One-Liner.sh`: 990-byte strict-offline marker-rule observer; encodes the rule, not repo names.
 
 ## Core Definition
 
@@ -250,6 +251,36 @@ This snapshot is intentionally static. It verifies the offline state captured on
 The snapshot one-liner is over 2000 bytes because it embeds the 105-repository
 payload.
 
+## 2KB Marker-Rule Encoding
+
+`RH_All_Repos_Marker_Rule_2KB_One-Liner.sh` is the strict sub-2000-byte form of
+the same all-repos marker idea. It stores only the encoding machine rule:
+
+```text
+N = 105
+C_n = P_n
+z_n = P_n + n*i
+```
+
+It does not store or restore repository names. Its purpose is to verify the
+formal zero-entropy marker structure offline:
+
+```json
+{
+  "N": 105,
+  "DeviationCount": 0,
+  "H": 0,
+  "ZE": 1,
+  "Rb": "solved",
+  "TM": "halt_accept",
+  "NetworkRequired": 0
+}
+```
+
+Injected deviations, such as `105 2 12`, move the rule system to
+`halt_review`. This is the honest sub-2000-byte version: it is reversible as a
+marker rule, not as a repository-name snapshot.
+
 ## Usage
 
 Verify the whole system:
@@ -344,4 +375,11 @@ python3 RH_All_Repos_Marker_Encoding_Snapshot.py verify
 python3 RH_All_Repos_Marker_Encoding_Snapshot.py verify --inject-index 2 --inject-c 12
 sh RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh
 sh RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh 2 12
+```
+
+Sub-2000-byte marker-rule observer:
+
+```sh
+sh RH_All_Repos_Marker_Rule_2KB_One-Liner.sh
+sh RH_All_Repos_Marker_Rule_2KB_One-Liner.sh 105 2 12
 ```
