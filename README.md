@@ -19,6 +19,8 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `Critical_Line_Zero_Safety_Kernel_One-Liner.sh`: 1079-byte compact critical-line safety observer.
 - `RH_Marker_Encoding_Machine.py`: prime-marker consistency checker for the proposed RH marker encoding rule.
 - `RH_Marker_Encoding_Machine_One-Liner.sh`: 1103-byte compact RH marker observer.
+- `RH_All_Repos_Marker_Encoding.py`: account-wide public repository prime-marker encoder.
+- `RH_All_Repos_Marker_Encoding_One-Liner.sh`: 1686-byte compact all-repos marker encoder.
 
 ## Core Definition
 
@@ -191,6 +193,35 @@ m=k+1 is not forced, showing the theorem gap.
 
 The result is a consistency checker for the encoding rule, not a proof of RH.
 
+## RH All-Repos Marker Encoding
+
+`RH_All_Repos_Marker_Encoding.py` extends the marker rule to every public
+repository of a GitHub account. Repositories are sorted by `full_name`, assigned
+a natural index `n`, and encoded as:
+
+```text
+C_n = P_n
+z_n = C_n + n*i
+```
+
+For `letsgo0226`, the current public metadata scan returns:
+
+```json
+{
+  "Owner": "letsgo0226",
+  "N": 105,
+  "DeviationCount": 0,
+  "H": 0,
+  "ZE": 1,
+  "Rb": "solved",
+  "TM": "halt_accept"
+}
+```
+
+Injected deviations, such as `--inject-index 2 --inject-c 12`, move the system
+to `halt_review`. This encodes repository metadata only; it does not execute
+repository payloads and does not restore all source bodies offline.
+
 ## Usage
 
 Verify the whole system:
@@ -267,4 +298,13 @@ python3 RH_Marker_Encoding_Machine.py --k 4 --c-next 12
 python3 RH_Marker_Encoding_Machine.py --k 4 --c-next 30
 python3 RH_Marker_Encoding_Machine.py --k 4 --c-next 11
 sh RH_Marker_Encoding_Machine_One-Liner.sh 4 12
+```
+
+All-repos marker encoding:
+
+```sh
+python3 RH_All_Repos_Marker_Encoding.py verify --owner letsgo0226
+python3 RH_All_Repos_Marker_Encoding.py json --owner letsgo0226
+python3 RH_All_Repos_Marker_Encoding.py verify --owner sample --inject-index 2 --inject-c 12
+sh RH_All_Repos_Marker_Encoding_One-Liner.sh letsgo0226
 ```
