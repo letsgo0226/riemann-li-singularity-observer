@@ -21,6 +21,8 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `RH_Marker_Encoding_Machine_One-Liner.sh`: 1103-byte compact RH marker observer.
 - `RH_All_Repos_Marker_Encoding.py`: account-wide public repository prime-marker encoder.
 - `RH_All_Repos_Marker_Encoding_One-Liner.sh`: 1686-byte compact all-repos marker encoder.
+- `RH_All_Repos_Marker_Encoding_Snapshot.py`: fully offline 2026-08-16 all-repos marker snapshot.
+- `RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh`: single-line offline snapshot observer with embedded repo-name payload.
 
 ## Core Definition
 
@@ -222,6 +224,32 @@ Injected deviations, such as `--inject-index 2 --inject-c 12`, move the system
 to `halt_review`. This encodes repository metadata only; it does not execute
 repository payloads and does not restore all source bodies offline.
 
+## Offline Snapshot Encoding
+
+`RH_All_Repos_Marker_Encoding_Snapshot.py` embeds the 2026-08-16 `letsgo0226`
+public repository-name snapshot directly in the program body using
+`zlib+base64`. It requires no network:
+
+```json
+{
+  "Owner": "letsgo0226",
+  "SnapshotDate": "2026-08-16",
+  "SnapshotStatic": true,
+  "NetworkRequired": 0,
+  "N": 105,
+  "DeviationCount": 0,
+  "H": 0,
+  "ZE": 1,
+  "Rb": "solved",
+  "TM": "halt_accept"
+}
+```
+
+This snapshot is intentionally static. It verifies the offline state captured on
+2026-08-16, not the current live GitHub state after future repository changes.
+The snapshot one-liner is over 2000 bytes because it embeds the 105-repository
+payload.
+
 ## Usage
 
 Verify the whole system:
@@ -307,4 +335,13 @@ python3 RH_All_Repos_Marker_Encoding.py verify --owner letsgo0226
 python3 RH_All_Repos_Marker_Encoding.py json --owner letsgo0226
 python3 RH_All_Repos_Marker_Encoding.py verify --owner sample --inject-index 2 --inject-c 12
 sh RH_All_Repos_Marker_Encoding_One-Liner.sh letsgo0226
+```
+
+Offline all-repos snapshot:
+
+```sh
+python3 RH_All_Repos_Marker_Encoding_Snapshot.py verify
+python3 RH_All_Repos_Marker_Encoding_Snapshot.py verify --inject-index 2 --inject-c 12
+sh RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh
+sh RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh 2 12
 ```
