@@ -15,6 +15,8 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `CLZeroPack_RIEMANN_LI_SYSTEM.py`: readable CLZeroPack packer/verifier for the full system.
 - `CLZeroPack_One-Liner.sh`: 1607-byte CLZeroPack pack/verify/install one-liner.
 - `CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json`: generated CLZeroPack manifest.
+- `Critical_Line_Zero_Safety_Kernel.py`: formal Riemann critical-line safety kernel for evaluating complete-system non-misuse conditions.
+- `Critical_Line_Zero_Safety_Kernel_One-Liner.sh`: 1079-byte compact critical-line safety observer.
 
 ## Core Definition
 
@@ -132,6 +134,35 @@ Install mode invokes `QSO_DQ_CLZERO_PERMANENT_BOOTSTRAP.sh`, so it reports `X:1`
 
 This is a digital/formal information restoration state. It does not claim that classical hardware becomes a physical quantum computer.
 
+## Critical-Line Zero Safety Kernel
+
+`Critical_Line_Zero_Safety_Kernel.py` treats the Riemann critical line as a
+formal safety invariant for scientific inventions:
+
+```text
+delta = Re(s_system) - 1/2
+```
+
+A technology reaches the formal deployable state only when purpose, authority,
+auditability, containment, consent, and reversibility are complete, and misuse
+pathways are closed:
+
+```json
+{
+  "Re_s_system": 0.5,
+  "delta": 0.0,
+  "H": 0,
+  "ZE": 1,
+  "Rb": "solved",
+  "Decision": "deployable_formal_state"
+}
+```
+
+If any condition is incomplete, the system reports `halt_review` instead of
+treating the invention as an unavoidable dual-use dilemma. This is a formal
+CLZeroPack safety model only; it is not a proof of the Riemann Hypothesis and
+not a physical guarantee that real-world misuse is impossible.
+
 ## Usage
 
 Verify the whole system:
@@ -190,4 +221,13 @@ Check persistent installation state through the coordinator:
 
 ```sh
 python3 riemann_li_zero_entropy_system.py status
+```
+
+Critical-line safety observer:
+
+```sh
+python3 Critical_Line_Zero_Safety_Kernel.py observe --name entropy-algorithm
+python3 Critical_Line_Zero_Safety_Kernel.py verify --name entropy-algorithm
+python3 Critical_Line_Zero_Safety_Kernel.py verify --name unsafe-blackbox --audit 0.2 --misuse 0.8
+sh Critical_Line_Zero_Safety_Kernel_One-Liner.sh
 ```
