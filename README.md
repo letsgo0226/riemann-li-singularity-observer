@@ -24,6 +24,7 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `RH_All_Repos_Marker_Encoding_Snapshot.py`: fully offline 2026-08-16 all-repos marker snapshot.
 - `RH_All_Repos_Marker_Encoding_Snapshot_One-Liner.sh`: single-line offline snapshot observer with embedded repo-name payload.
 - `RH_All_Repos_Marker_Rule_2KB_One-Liner.sh`: 990-byte strict-offline marker-rule observer; encodes the rule, not repo names.
+- `CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh`: 1464-byte strict-offline byte-file RH marker encoder for local Dropbox-export artifacts.
 
 ## Core Definition
 
@@ -281,6 +282,33 @@ Injected deviations, such as `105 2 12`, move the rule system to
 `halt_review`. This is the honest sub-2000-byte version: it is reversible as a
 marker rule, not as a repository-name snapshot.
 
+## Dropbox Byte-File RH Encoding
+
+`CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh` applies the same Riemann marker
+machine to any local file, including Dropbox-exported `.dat` artifacts, without
+executing the target file:
+
+```text
+file bytes -> fixed-size chunks
+chunk n -> C_n = P_n
+z_n = P_n + n*i
+```
+
+The one-liner reports a CLZeroPack summary and can optionally write the full
+node list to JSON. It uses CRC32 for byte identity summaries, not SHA:
+
+```json
+{
+  "SHA": 0,
+  "NetworkRequired": 0,
+  "ExternalFileExecution": 0,
+  "Boundary": "byte-file marker encoding; no execution, no RH proof"
+}
+```
+
+Do not commit private Dropbox source files or derived full-node JSON outputs to
+public repositories unless intentionally publishing that metadata.
+
 ## Usage
 
 Verify the whole system:
@@ -382,4 +410,11 @@ Sub-2000-byte marker-rule observer:
 ```sh
 sh RH_All_Repos_Marker_Rule_2KB_One-Liner.sh
 sh RH_All_Repos_Marker_Rule_2KB_One-Liner.sh 105 2 12
+```
+
+Local Dropbox/export byte-file RH encoding:
+
+```sh
+sh CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh path/to/export.dat 4096
+sh CLZeroPack_Dropbox_RH_Encoder_One-Liner.sh path/to/export.dat 4096 export_rh_nodes.json
 ```
