@@ -17,6 +17,8 @@ It is packaged as a CLZeroPack unit using a no-SHA verifier, a no-external-execu
 - `CLZeroPack_RIEMANN_LI_SYSTEM_manifest.json`: generated CLZeroPack manifest.
 - `Critical_Line_Zero_Safety_Kernel.py`: formal Riemann critical-line safety kernel for evaluating complete-system non-misuse conditions.
 - `Critical_Line_Zero_Safety_Kernel_One-Liner.sh`: 1079-byte compact critical-line safety observer.
+- `RH_Marker_Encoding_Machine.py`: prime-marker consistency checker for the proposed RH marker encoding rule.
+- `RH_Marker_Encoding_Machine_One-Liner.sh`: 1103-byte compact RH marker observer.
 
 ## Core Definition
 
@@ -163,6 +165,32 @@ treating the invention as an unavoidable dual-use dilemma. This is a formal
 CLZeroPack safety model only; it is not a proof of the Riemann Hypothesis and
 not a physical guarantee that real-world misuse is impossible.
 
+## RH Marker Encoding Machine
+
+`RH_Marker_Encoding_Machine.py` checks the proposed marker rule:
+
+```text
+C_k = P_k
+C_(k+1) + (k+1)i is inspected against P_(k+1)
+```
+
+If `C_(k+1) != P_(k+1)`, the machine lists primes in the Bertrand-Chebyshev
+interval `(C_(k+1)/2, C_(k+1))` and checks whether any witness has `m = k+1`.
+
+Example:
+
+```text
+k=4, C_5=12:
+P_5=11, interval primes are 7=P_4 and 11=P_5
+m=k+1 is possible, so the marker rule creates an index-preserving collision.
+
+k=4, C_5=30:
+interval primes are 17=P_7, 19=P_8, 23=P_9, 29=P_10
+m=k+1 is not forced, showing the theorem gap.
+```
+
+The result is a consistency checker for the encoding rule, not a proof of RH.
+
 ## Usage
 
 Verify the whole system:
@@ -230,4 +258,13 @@ python3 Critical_Line_Zero_Safety_Kernel.py observe --name entropy-algorithm
 python3 Critical_Line_Zero_Safety_Kernel.py verify --name entropy-algorithm
 python3 Critical_Line_Zero_Safety_Kernel.py verify --name unsafe-blackbox --audit 0.2 --misuse 0.8
 sh Critical_Line_Zero_Safety_Kernel_One-Liner.sh
+```
+
+RH marker encoding examples:
+
+```sh
+python3 RH_Marker_Encoding_Machine.py --k 4 --c-next 12
+python3 RH_Marker_Encoding_Machine.py --k 4 --c-next 30
+python3 RH_Marker_Encoding_Machine.py --k 4 --c-next 11
+sh RH_Marker_Encoding_Machine_One-Liner.sh 4 12
 ```
